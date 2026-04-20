@@ -1,0 +1,1593 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--color-background-tertiary, #f8f7f4);
+    color: var(--color-text-primary, #1a1a1a);
+    line-height: 1.7;
+  }
+
+  .course-shell {
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    width: 260px;
+    min-width: 260px;
+    background: var(--color-background-primary, #fff);
+    border-right: 0.5px solid var(--color-border-tertiary, rgba(0,0,0,0.12));
+    padding: 1.5rem 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+
+  .sidebar-logo {
+    padding: 0 1.25rem 1.5rem;
+    border-bottom: 0.5px solid var(--color-border-tertiary, rgba(0,0,0,0.1));
+    margin-bottom: 1rem;
+  }
+
+  .sidebar-logo .school {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary, #666);
+    margin-bottom: 4px;
+  }
+
+  .sidebar-logo .course-title {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--color-text-primary, #1a1a1a);
+  }
+
+  .sidebar-logo .duration {
+    display: inline-block;
+    margin-top: 6px;
+    font-size: 11px;
+    background: #E1F5EE;
+    color: #0F6E56;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+
+  .nav-section {
+    margin-bottom: 0.5rem;
+  }
+
+  .nav-section-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary, #888);
+    padding: 0.5rem 1.25rem 0.25rem;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.4rem 1.25rem;
+    font-size: 13px;
+    cursor: pointer;
+    color: var(--color-text-secondary, #555);
+    border-left: 2px solid transparent;
+    transition: all 0.15s;
+    line-height: 1.4;
+  }
+
+  .nav-item:hover {
+    background: var(--color-background-secondary, #f5f5f5);
+    color: var(--color-text-primary, #1a1a1a);
+  }
+
+  .nav-item.active {
+    color: #0F6E56;
+    border-left-color: #1D9E75;
+    background: #E1F5EE;
+    font-weight: 500;
+  }
+
+  .nav-item .nav-num {
+    font-size: 10px;
+    font-weight: 600;
+    min-width: 18px;
+    color: inherit;
+    opacity: 0.6;
+  }
+
+  /* MAIN CONTENT */
+  .main {
+    flex: 1;
+    padding: 2.5rem 3rem;
+    max-width: 860px;
+  }
+
+  .section {
+    display: none;
+  }
+  .section.active {
+    display: block;
+  }
+
+  /* HERO HEADER */
+  .section-header {
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 0.5px solid var(--color-border-tertiary, rgba(0,0,0,0.1));
+  }
+
+  .section-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #0F6E56;
+    margin-bottom: 0.75rem;
+  }
+
+  .section-badge .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #1D9E75;
+  }
+
+  h1.section-title {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--color-text-primary, #1a1a1a);
+    margin-bottom: 0.75rem;
+  }
+
+  .section-meta {
+    font-size: 13px;
+    color: var(--color-text-secondary, #888);
+  }
+
+  /* TYPOGRAPHY */
+  h2 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 2rem 0 0.75rem;
+    color: var(--color-text-primary, #1a1a1a);
+  }
+
+  h3 {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 1.5rem 0 0.5rem;
+    color: var(--color-text-primary, #1a1a1a);
+    letter-spacing: 0.01em;
+  }
+
+  p {
+    font-size: 15px;
+    margin-bottom: 0.85rem;
+    color: var(--color-text-primary, #1a1a1a);
+  }
+
+  strong { font-weight: 600; }
+  em { font-style: italic; }
+
+  /* CALLOUT BOXES */
+  .box {
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin: 1.25rem 0;
+    border-left: 3px solid;
+  }
+
+  .box-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .box p:last-child { margin-bottom: 0; }
+
+  .box-retenir {
+    background: #E1F5EE;
+    border-color: #1D9E75;
+  }
+  .box-retenir .box-label { color: #0F6E56; }
+
+  .box-exemple {
+    background: #E6F1FB;
+    border-color: #378ADD;
+  }
+  .box-exemple .box-label { color: #185FA5; }
+
+  .box-attention {
+    background: #FAEEDA;
+    border-color: #EF9F27;
+  }
+  .box-attention .box-label { color: #854F0B; }
+
+  .box-controverse {
+    background: #FBEAF0;
+    border-color: #D4537E;
+  }
+  .box-controverse .box-label { color: #993556; }
+
+  .box-definition {
+    background: var(--color-background-secondary, #f5f5f5);
+    border-color: var(--color-border-secondary, rgba(0,0,0,0.2));
+  }
+  .box-definition .box-label { color: var(--color-text-secondary, #555); }
+
+  .box-regen {
+    background: linear-gradient(135deg, #E1F5EE 0%, #EAF3DE 100%);
+    border-color: #639922;
+  }
+  .box-regen .box-label { color: #3B6D11; }
+
+  .box-exercice {
+    background: #EEEDFE;
+    border-color: #7F77DD;
+    border-left-width: 3px;
+  }
+  .box-exercice .box-label { color: #3C3489; }
+
+  /* TABLE */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    margin: 1rem 0 1.5rem;
+  }
+  th {
+    background: var(--color-background-secondary, #f5f5f5);
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--color-border-secondary, rgba(0,0,0,0.15));
+  }
+  td {
+    padding: 8px 12px;
+    border-bottom: 0.5px solid var(--color-border-tertiary, rgba(0,0,0,0.08));
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+
+  /* FORMULA */
+  .formula {
+    background: var(--color-background-secondary, #f7f7f7);
+    border: 0.5px solid var(--color-border-secondary, rgba(0,0,0,0.15));
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    margin: 1.25rem 0;
+    font-family: 'Libre Baskerville', serif;
+    font-size: 17px;
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  .formula .formula-name {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary, #888);
+    margin-bottom: 8px;
+    text-align: left;
+  }
+
+  /* TIMELINE */
+  .timeline {
+    position: relative;
+    padding-left: 1.5rem;
+    margin: 1.5rem 0;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 8px;
+    bottom: 8px;
+    width: 1px;
+    background: var(--color-border-secondary, rgba(0,0,0,0.15));
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 1.25rem;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -1.2rem;
+    top: 5px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #1D9E75;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 1px #1D9E75;
+  }
+  .timeline-date {
+    font-size: 11px;
+    font-weight: 700;
+    color: #0F6E56;
+    letter-spacing: 0.05em;
+    margin-bottom: 2px;
+  }
+  .timeline-text {
+    font-size: 14px;
+    color: var(--color-text-primary, #1a1a1a);
+  }
+
+  /* PROGRESS BAR */
+  .progress-bar {
+    height: 3px;
+    background: var(--color-border-tertiary, rgba(0,0,0,0.1));
+    border-radius: 2px;
+    margin-bottom: 2rem;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: #1D9E75;
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+
+  /* OBJECTIVES */
+  .obj-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+    margin: 1rem 0 1.5rem;
+  }
+  .obj-card {
+    background: var(--color-background-primary, #fff);
+    border: 0.5px solid var(--color-border-tertiary, rgba(0,0,0,0.1));
+    border-radius: 8px;
+    padding: 0.85rem 1rem;
+  }
+  .obj-card .obj-icon {
+    font-size: 18px;
+    margin-bottom: 6px;
+  }
+  .obj-card .obj-text {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--color-text-primary, #1a1a1a);
+  }
+
+  /* VARIABLE CARDS */
+  .var-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    margin: 1rem 0 1.5rem;
+  }
+  .var-card {
+    background: var(--color-background-primary, #fff);
+    border: 0.5px solid var(--color-border-tertiary, rgba(0,0,0,0.1));
+    border-radius: 10px;
+    padding: 1rem 1.1rem;
+    border-top: 3px solid #1D9E75;
+  }
+  .var-card.blue { border-top-color: #378ADD; }
+  .var-card.amber { border-top-color: #EF9F27; }
+  .var-card.purple { border-top-color: #7F77DD; }
+  .var-card.coral { border-top-color: #D85A30; }
+  .var-card.pink { border-top-color: #D4537E; }
+  .var-name {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: var(--color-text-primary, #1a1a1a);
+  }
+  .var-def {
+    font-size: 12px;
+    color: var(--color-text-secondary, #666);
+    line-height: 1.5;
+    margin-bottom: 6px;
+  }
+  .var-formula {
+    font-size: 12px;
+    font-family: 'Libre Baskerville', serif;
+    background: var(--color-background-secondary, #f5f5f5);
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+  }
+
+  /* EXERCICE BLOCK */
+  .ex-block {
+    background: var(--color-background-primary, #fff);
+    border: 0.5px solid #AFA9EC;
+    border-radius: 10px;
+    margin: 1.25rem 0;
+    overflow: hidden;
+  }
+  .ex-header {
+    background: #EEEDFE;
+    padding: 0.75rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 0.5px solid #AFA9EC;
+  }
+  .ex-num {
+    font-size: 12px;
+    font-weight: 700;
+    color: #3C3489;
+    background: #fff;
+    border: 1px solid #AFA9EC;
+    border-radius: 4px;
+    padding: 1px 7px;
+    font-family: 'Libre Baskerville', serif;
+  }
+  .ex-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #3C3489;
+  }
+  .ex-difficulty {
+    margin-left: auto;
+    font-size: 11px;
+    color: #534AB7;
+    font-weight: 500;
+  }
+  .ex-body {
+    padding: 1rem 1.25rem;
+  }
+  .ex-question {
+    font-size: 14px;
+    margin-bottom: 0.75rem;
+    color: var(--color-text-primary, #1a1a1a);
+  }
+
+  .corrige-toggle {
+    background: none;
+    border: 0.5px solid #7F77DD;
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-size: 13px;
+    color: #3C3489;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    transition: all 0.15s;
+    margin-top: 0.5rem;
+  }
+  .corrige-toggle:hover {
+    background: #EEEDFE;
+  }
+
+  .corrige {
+    display: none;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 0.5px solid var(--color-border-tertiary, rgba(0,0,0,0.1));
+  }
+  .corrige.open { display: block; }
+  .corrige-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #534AB7;
+    margin-bottom: 6px;
+  }
+  .corrige p { font-size: 14px; }
+
+  /* CASE STUDY */
+  .case-header {
+    background: var(--color-background-secondary, #f5f5f5);
+    border-radius: 8px 8px 0 0;
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    border: 0.5px solid var(--color-border-tertiary, rgba(0,0,0,0.1));
+    border-bottom: none;
+  }
+  .case-emoji { font-size: 28px; }
+  .case-info { flex: 1; }
+  .case-info h4 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+  .case-info p {
+    font-size: 13px;
+    color: var(--color-text-secondary, #666);
+    margin: 0;
+  }
+
+  /* DONUTS / STAT CARDS */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 10px;
+    margin: 1rem 0;
+  }
+  .stat-card {
+    background: var(--color-background-secondary, #f5f5f5);
+    border-radius: 8px;
+    padding: 0.85rem 1rem;
+  }
+  .stat-label {
+    font-size: 11px;
+    color: var(--color-text-secondary, #888);
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+  .stat-value {
+    font-size: 20px;
+    font-weight: 600;
+    font-family: 'Libre Baskerville', serif;
+    color: var(--color-text-primary, #1a1a1a);
+  }
+  .stat-unit {
+    font-size: 12px;
+    color: var(--color-text-secondary, #888);
+    margin-left: 2px;
+  }
+
+  /* NAV BOTTOM */
+  .section-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 0.5px solid var(--color-border-tertiary, rgba(0,0,0,0.1));
+  }
+  .nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: 0.5px solid var(--color-border-secondary, rgba(0,0,0,0.2));
+    border-radius: 7px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    color: var(--color-text-primary, #1a1a1a);
+    transition: all 0.15s;
+  }
+  .nav-btn:hover {
+    background: var(--color-background-secondary, #f5f5f5);
+  }
+  .nav-btn.primary {
+    background: #1D9E75;
+    color: #fff;
+    border-color: #1D9E75;
+  }
+  .nav-btn.primary:hover { background: #0F6E56; }
+  .nav-btn:disabled { opacity: 0.3; cursor: default; }
+
+  /* SEPARATOR */
+  .sep {
+    height: 0.5px;
+    background: var(--color-border-tertiary, rgba(0,0,0,0.08));
+    margin: 1.5rem 0;
+  }
+
+  ul.content-list {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 1rem;
+  }
+  ul.content-list li {
+    font-size: 14px;
+    padding: 4px 0 4px 1.2rem;
+    position: relative;
+    color: var(--color-text-primary, #1a1a1a);
+  }
+  ul.content-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: #1D9E75;
+    font-size: 12px;
+    top: 5px;
+  }
+
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin: 2px 2px 2px 0;
+  }
+  .tag-consensus { background: #E1F5EE; color: #0F6E56; }
+  .tag-debat { background: #FAEEDA; color: #854F0B; }
+  .tag-emergent { background: #EEEDFE; color: #3C3489; }
+  .tag-critique { background: #FBEAF0; color: #993556; }
+
+  .quote-block {
+    border-left: 3px solid #1D9E75;
+    padding: 0.75rem 1.25rem;
+    margin: 1.25rem 0;
+    background: var(--color-background-secondary, #f5f5f5);
+    border-radius: 0 6px 6px 0;
+  }
+  .quote-block p {
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic;
+    font-size: 15px;
+    margin-bottom: 4px;
+  }
+  .quote-source {
+    font-size: 12px;
+    color: var(--color-text-secondary, #888);
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* MODELE ECO EXAMPLE */
+  .model-card {
+    background: var(--color-background-primary, #fff);
+    border: 0.5px solid var(--color-border-tertiary, rgba(0,0,0,0.1));
+    border-radius: 10px;
+    padding: 1.1rem 1.25rem;
+    margin-bottom: 12px;
+  }
+  .model-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 0.5px solid var(--color-border-tertiary, rgba(0,0,0,0.08));
+  }
+  .model-card-emoji { font-size: 20px; }
+  .model-card-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text-primary, #1a1a1a);
+  }
+  .model-card-type {
+    margin-left: auto;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: #E1F5EE;
+    color: #0F6E56;
+  }
+  .model-rows td {
+    font-size: 13px;
+    padding: 4px 8px;
+  }
+  .model-rows td:first-child {
+    color: var(--color-text-secondary, #888);
+    font-weight: 500;
+    min-width: 120px;
+  }
+</style>
+</head>
+<body>
+
+<div class="course-shell">
+
+  <!-- SIDEBAR NAV -->
+  <nav class="sidebar">
+    <div class="sidebar-logo">
+      <div class="school">Regen School — M1 Finance</div>
+      <div class="course-title">Finance d'entreprise<br>Cours 1 — Fondamentaux</div>
+      <span class="duration">4 heures</span>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">Contenu du cours</div>
+      <div class="nav-item active" onclick="goTo(0)"><span class="nav-num">00</span> Introduction</div>
+      <div class="nav-item" onclick="goTo(1)"><span class="nav-num">01</span> Histoire & évolutions</div>
+      <div class="nav-item" onclick="goTo(2)"><span class="nav-num">02</span> Le modèle économique</div>
+      <div class="nav-item" onclick="goTo(3)"><span class="nav-num">03</span> L'équation de CA</div>
+      <div class="nav-item" onclick="goTo(4)"><span class="nav-num">04</span> Exercices</div>
+      <div class="nav-item" onclick="goTo(5)"><span class="nav-num">05</span> Ouverture Regen</div>
+      <div class="nav-item" onclick="goTo(6)"><span class="nav-num">06</span> Conclusion</div>
+    </div>
+
+    <div class="nav-section" style="margin-top: 1rem; border-top: 0.5px solid var(--color-border-tertiary, rgba(0,0,0,0.1)); padding-top: 1rem;">
+      <div class="nav-section-label">Légende</div>
+      <div style="padding: 0 1.25rem; display: flex; flex-direction: column; gap: 4px;">
+        <span class="tag tag-consensus">Consensus académique</span>
+        <span class="tag tag-debat">Débattu / nuancé</span>
+        <span class="tag tag-emergent">Émergent / innovant</span>
+        <span class="tag tag-critique">Critique / controversé</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+
+    <!-- SECTION 0: INTRODUCTION -->
+    <div class="section active" id="sec-0">
+      <div class="progress-bar"><div class="progress-fill" style="width: 14%"></div></div>
+
+      <div class="section-header">
+        <div class="section-badge"><span class="dot"></span> Introduction — 15 min</div>
+        <h1 class="section-title">Pourquoi la finance d'entreprise ?</h1>
+        <div class="section-meta">Section 00 · Premier cours de finance · Regen School M1</div>
+      </div>
+
+      <p>Avant d'ouvrir un tableur ou d'apprendre une formule, posons une question simple : <strong>à quoi sert vraiment la finance dans une organisation ?</strong></p>
+
+      <p>La finance d'entreprise n'est pas une discipline abstraite réservée aux banquiers. C'est un outil de pilotage — un langage commun qui permet de comprendre ce qu'une organisation crée, ce qu'elle consomme, et si elle est viable.</p>
+
+      <div class="box box-retenir">
+        <div class="box-label">À retenir</div>
+        <p>La finance d'entreprise répond à trois questions fondamentales :<br>
+        <strong>1. Comment l'entreprise génère-t-elle de l'argent ?</strong><br>
+        <strong>2. Comment l'utilise-t-elle ?</strong><br>
+        <strong>3. Est-elle viable à court et long terme ?</strong></p>
+      </div>
+
+      <h2>Ce que vous allez apprendre aujourd'hui</h2>
+
+      <div class="obj-grid">
+        <div class="obj-card">
+          <div class="obj-text">Comprendre le rôle et les limites de la finance dans une organisation</div>
+        </div>
+        <div class="obj-card">
+          <div class="obj-text">Connaître l'histoire et l'évolution de la finance d'entreprise</div>
+        </div>
+        <div class="obj-card">
+          <div class="obj-text">Définir et analyser un modèle économique</div>
+        </div>
+        <div class="obj-card">
+          <div class="obj-text">Maîtriser l'équation de chiffre d'affaires et ses leviers</div>
+        </div>
+        <div class="obj-card">
+          <div class="obj-text">Porter un regard critique et nuancé sur la finance actuelle</div>
+        </div>
+      </div>
+
+      <h2>La finance comme langage</h2>
+      <p>Imaginez que vous dirigez une boulangerie. Chaque matin, vous savez combien de baguettes vous avez vendues, combien de farine vous avez utilisée, ce que vous avez payé vos employés. La finance, c'est le fait de <strong>formaliser et quantifier</strong> ces informations pour prendre de meilleures décisions.</p>
+
+      <div class="box box-exemple">
+        <div class="box-label">Exemple concret</div>
+        <p>Vous vendez 300 baguettes à 1,20 € = 360 € de recettes. Votre farine, vos employés et votre loyer vous coûtent 290 €. Il vous reste 70 €. Est-ce suffisant pour rembourser votre four acheté à crédit ? Pour embaucher quelqu'un de plus ? La finance vous donne les outils pour répondre à ces questions.</p>
+      </div>
+
+      <h2>Une mise en tension fondatrice</h2>
+
+      <p>Dès ce premier cours, nous voulons vous exposer à une tension qui traversera toute votre formation :</p>
+
+      <table>
+        <tr>
+          <th>La finance comme outil de pilotage</th>
+          <th>La finance comme objet de critique</th>
+        </tr>
+        <tr>
+          <td>Permet de mesurer la création de valeur</td>
+          <td>Peut favoriser le court-termisme</td>
+        </tr>
+        <tr>
+          <td>Aide à allouer les ressources efficacement</td>
+          <td>Ignore parfois les externalités (pollution, inégalités)</td>
+        </tr>
+        <tr>
+          <td>Langage universel entre acteurs économiques</td>
+          <td>Peut réduire des réalités complexes à des chiffres</td>
+        </tr>
+        <tr>
+          <td>Outil indispensable pour tout manager</td>
+          <td>Parfois déconnectée de l'économie réelle</td>
+        </tr>
+      </table>
+
+      <div class="box box-attention">
+        <div class="box-label">Attention</div>
+        <p>Ce cours ne vous propose pas de choisir un camp. La finance est un outil : comme tout outil, elle peut être bien ou mal utilisée. Notre objectif est de vous former à l'utiliser avec compétence et avec discernement.</p>
+      </div>
+
+      <div class="section-nav">
+        <button class="nav-btn" disabled>← Précédent</button>
+        <button class="nav-btn primary" onclick="goTo(1)">Histoire & évolutions →</button>
+      </div>
+    </div>
+
+
+    <!-- SECTION 1: HISTOIRE -->
+    <div class="section" id="sec-1">
+      <div class="progress-bar"><div class="progress-fill" style="width: 28%"></div></div>
+
+      <div class="section-header">
+        <div class="section-badge"><span class="dot"></span> Histoire — 45 min</div>
+        <h1 class="section-title">Histoire & évolutions de la finance d'entreprise</h1>
+        <div class="section-meta">Section 01 · Comprendre d'où vient la logique financière actuelle</div>
+      </div>
+
+      <p>Comprendre la finance d'entreprise aujourd'hui nécessite de comprendre comment elle s'est construite. Les pratiques et croyances qui dominent le monde professionnel ne sont pas des lois naturelles — elles ont une histoire, des auteurs, des contextes.</p>
+
+      <h2>Les grandes étapes</h2>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-date">XVIIe – XVIIIe siècle</div>
+          <div class="timeline-text"><strong>Les premières entreprises par actions.</strong> La Compagnie des Indes orientales (1602) invente le concept d'actionnaire : on peut investir dans une entreprise sans en être le gérant. La séparation entre propriété et gestion commence.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">XIXe siècle — Industrialisation</div>
+          <div class="timeline-text"><strong>L'essor des grandes entreprises.</strong> Les chemins de fer, les mines, la sidérurgie nécessitent des capitaux énormes. La comptabilité et la finance deviennent des disciplines structurées. Les premiers analystes financiers apparaissent.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">1929 — Crise et régulation</div>
+          <div class="timeline-text"><strong>Le krach boursier et ses suites.</strong> La crise révèle les risques de l'opacité financière. Les États-Unis créent la SEC (Securities and Exchange Commission). L'idée que les marchés doivent être réglementés s'impose. <span class="tag tag-consensus">Consensus</span></div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">1950–1970 — Les Trente Glorieuses</div>
+          <div class="timeline-text"><strong>Finance au service de la croissance.</strong> Les grandes entreprises (GM, IBM, Renault, EDF...) sont des instruments de politique économique. L'objectif n'est pas uniquement le profit mais aussi l'emploi, la production nationale. Le manager est une figure centrale.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">1970–1980 — Révolution financière</div>
+          <div class="timeline-text"><strong>La finance moderne s'impose.</strong> Milton Friedman (1970) publie son article fondateur : "la seule responsabilité sociale de l'entreprise est d'accroître ses profits." Le modèle CAPM, la théorie des marchés efficients de Fama, le modèle Black-Scholes révolutionnent la pensée financière. <span class="tag tag-debat">Débattu</span></div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">1980–2000 — Financiarisation</div>
+          <div class="timeline-text"><strong>La shareholder value devient le dogme.</strong> Les marchés financiers explosent. Les LBO (rachats par endettement), la montée des fonds d'investissement, les stock-options pour les dirigeants transforment la culture d'entreprise. La bourse devient le juge suprême de la performance.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2008 — Crise financière mondiale</div>
+          <div class="timeline-text"><strong>Le modèle montré à nu.</strong> La crise des subprimes révèle les risques systémiques de la finance dérégulée. Des milliers de milliards effacés, des millions de chômeurs. Les critiques du modèle dominant gagnent en légitimité. <span class="tag tag-critique">Critique majeure</span></div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2015–aujourd'hui — Bifurcations</div>
+          <div class="timeline-text"><strong>Des modèles alternatifs émergent.</strong> Entreprises à mission, finance ESG, comptabilité carbone, économie du donut. Ces innovations répondent à des crises multiples (climat, biodiversité, inégalités). Leur diffusion reste inégale. <span class="tag tag-emergent">Émergent</span></div>
+        </div>
+      </div>
+
+      <h2>Controverses actuelles</h2>
+      <p>Trois grands débats structurent la réflexion actuelle sur la finance d'entreprise :</p>
+
+      <div class="box box-controverse">
+        <div class="box-label">Controverse 1 — Shareholder vs Stakeholder</div>
+        <p><strong>La position classique</strong> (Friedman, Jensen, Meckling) : l'entreprise doit maximiser la valeur pour ses actionnaires. Tout autre objectif crée de l'inefficacité.<br><br>
+        <strong>La critique</strong> (Freeman, Porter, Mayer) : cette vision ignore que l'entreprise dépend de ses employés, clients, fournisseurs, communautés. Sacrifier les parties prenantes détruit la valeur à long terme.<br><br>
+        <strong>Où en est-on ?</strong> La Business Roundtable (USA, 2019) a officiellement abandonné la primauté de l'actionnaire. Mais le changement réel reste lent et inégal. <span class="tag tag-debat">Débat ouvert</span></p>
+      </div>
+
+      <div class="box box-controverse">
+        <div class="box-label">Controverse 2 — Croissance vs Soutenabilité</div>
+        <p><strong>La position classique</strong> : la croissance du PIB et du chiffre d'affaires est le signe de création de valeur. Plus = mieux.<br><br>
+        <strong>La critique scientifique</strong> : les rapports du GIEC et les travaux sur les limites planétaires (Rockström et al., 2009) montrent que la croissance économique telle qu'elle est mesurée est incompatible avec le maintien des conditions d'habitabilité de la planète. Ce n'est pas un jugement de valeur — c'est une contrainte physique. <span class="tag tag-consensus">Consensus scientifique</span><br><br>
+        <strong>Le débat porte sur</strong> : peut-on décorréler croissance et destruction ? La "croissance verte" est-elle possible à l'échelle et à la vitesse nécessaires ? <span class="tag tag-debat">Débat économique</span></p>
+      </div>
+
+      <div class="box box-controverse">
+        <div class="box-label">Controverse 3 — Indicateurs financiers vs Indicateurs élargis</div>
+        <p><strong>Le débat</strong> : le chiffre d'affaires, le bénéfice et la valeur boursière sont-ils des indicateurs suffisants pour évaluer la performance d'une entreprise ?<br><br>
+        <strong>Les critiques soulignent</strong> : ces indicateurs ignorent les externalités négatives (pollution, maladies professionnelles, destruction de biodiversité). Une entreprise peut être très profitable en externalisant ses coûts sur la société.<br><br>
+        <strong>Les alternatives proposées</strong> : comptabilité carbone, Impact-Weighted Accounts (Harvard), Bilan Carbone, tableau de bord ESG... Aucun ne fait encore consensus. <span class="tag tag-emergent">Émergent</span></p>
+      </div>
+
+      <div class="box box-retenir">
+        <div class="box-label">À retenir</div>
+        <p>La finance d'entreprise telle qu'on la pratique n'est pas un état naturel ou inévitable. Elle est le produit d'un siècle de théories, de crises, de rapports de force et de choix politiques. La comprendre permet de l'utiliser mieux — et de la faire évoluer.</p>
+      </div>
+
+      <div class="section-nav">
+        <button class="nav-btn" onclick="goTo(0)">← Introduction</button>
+        <button class="nav-btn primary" onclick="goTo(2)">Le modèle économique →</button>
+      </div>
+    </div>
+
+
+    <!-- SECTION 2: MODELE ECONOMIQUE -->
+    <div class="section" id="sec-2">
+      <div class="progress-bar"><div class="progress-fill" style="width: 42%"></div></div>
+
+      <div class="section-header">
+        <div class="section-badge"><span class="dot"></span> Concepts — 45 min</div>
+        <h1 class="section-title">Qu'est-ce qu'un modèle économique ?</h1>
+        <div class="section-meta">Section 02 · Définitions fondamentales + exemples détaillés</div>
+      </div>
+
+      <p>Avant de parler de chiffre d'affaires, il faut comprendre le cadre dans lequel il se génère : le modèle économique. C'est l'un des concepts les plus utilisés en management — et l'un des plus mal compris.</p>
+
+      <h2>Trois notions à distinguer absolument</h2>
+
+      <div class="box box-definition">
+        <div class="box-label">Définition — Activité</div>
+        <p><strong>L'activité</strong>, c'est ce que fait concrètement l'entreprise au quotidien. C'est le "quoi" opérationnel.<br>
+        <em>Exemple : "Nous fabriquons des chaussures de sport."</em></p>
+      </div>
+
+      <div class="box box-definition">
+        <div class="box-label">Définition — Modèle économique (Business Model)</div>
+        <p><strong>Le modèle économique</strong> décrit comment l'entreprise crée, délivre et capte de la valeur. C'est le "comment" systémique.<br>
+        Il répond à : Pour qui ? Quoi ? Comment ? Et comment on gagne de l'argent ?<br>
+        <em>Exemple : "Nous vendons des chaussures en direct aux consommateurs via notre site, avec une marge élevée grâce à l'absence d'intermédiaire."</em></p>
+      </div>
+
+      <div class="box box-definition">
+        <div class="box-label">Définition — Stratégie</div>
+        <p><strong>La stratégie</strong>, c'est l'ensemble des choix qui permettent à l'entreprise de se différencier et de construire un avantage durable. C'est le "pourquoi nous plutôt qu'eux".<br>
+        <em>Exemple : "Nous ciblons les coureurs amateurs qui veulent la qualité des pros sans payer le prix des marques premium."</em></p>
+      </div>
+
+      <div class="box box-attention">
+        <div class="box-label">Attention — Erreur fréquente</div>
+        <p>Deux entreprises peuvent avoir la <strong>même activité</strong> et des <strong>modèles économiques radicalement différents</strong>. Ryanair et Air France font toutes les deux du transport aérien. Leurs modèles économiques sont quasi opposés (low-cost vs full-service, frais annexes vs tout inclus, personnel au minimum vs service étendu).</p>
+      </div>
+
+      <h2>Les composantes d'un modèle économique</h2>
+
+      <p>Pour analyser un modèle économique de façon rigoureuse, on examine systématiquement :</p>
+
+      <table>
+        <tr><th>Dimension</th><th>Question clé</th><th>Ce qu'on cherche</th></tr>
+        <tr><td><strong>Proposition de valeur</strong></td><td>Quel problème résolvons-nous ?</td><td>Ce que le client obtient et pourquoi il paie</td></tr>
+        <tr><td><strong>Segments clients</strong></td><td>Pour qui ?</td><td>Qui sont nos clients ? Sont-ils segmentés ?</td></tr>
+        <tr><td><strong>Canaux</strong></td><td>Comment les atteignons-nous ?</td><td>Distribution, points de vente, digital...</td></tr>
+        <tr><td><strong>Flux de revenus</strong></td><td>Comment gagne-t-on l'argent ?</td><td>Vente, abonnement, commission, freemium...</td></tr>
+        <tr><td><strong>Structure de coûts</strong></td><td>Quelles sont les charges clés ?</td><td>Fixes vs variables, intensité capitalistique</td></tr>
+        <tr><td><strong>Ressources & activités clés</strong></td><td>Sur quoi repose notre avantage ?</td><td>Savoir-faire, technologie, réseau, marque...</td></tr>
+      </table>
+
+      <h2>Trois exemples très différents et détaillés</h2>
+
+      <div class="model-card">
+        <div class="model-card-header">
+          <div class="model-card-emoji">☕</div>
+          <div class="model-card-name">Nespresso — Le modèle "rasoir et lames"</div>
+          <div class="model-card-type">B2C Premium</div>
+        </div>
+        <table class="model-rows">
+          <tr><td>Proposition de valeur</td><td>Café de haute qualité, rituel simple et rapide, expérience de luxe à domicile</td></tr>
+          <tr><td>Segments clients</td><td>Ménages aisés, bureaux, hôtels haut de gamme</td></tr>
+          <tr><td>Flux de revenus</td><td>Machine vendue à coût quasi nul → capsules vendues à forte marge (engagement captif). L'acheteur de machine devient acheteur de capsules à vie.</td></tr>
+          <tr><td>Ressources clés</td><td>Marque premium, brevet sur les capsules (protégeait l'exclusivité), Club Nespresso (fidélisation)</td></tr>
+          <tr><td>Structure de coûts</td><td>R&D machines, fabrication capsules, boutiques en propre, marketing haut de gamme</td></tr>
+          <tr><td>Clé du modèle</td><td>La captivité : une fois la machine achetée, le client est "enfermé" dans l'écosystème</td></tr>
+        </table>
+      </div>
+
+      <div class="model-card">
+        <div class="model-card-header">
+          <div class="model-card-emoji">🌱</div>
+          <div class="model-card-name">Loom — Textile circulaire à impact</div>
+          <div class="model-card-type">B2C Impact</div>
+        </div>
+        <table class="model-rows">
+          <tr><td>Proposition de valeur</td><td>Vêtements durables, produits de façon éthique, réparables et recyclables en fin de vie</td></tr>
+          <tr><td>Segments clients</td><td>Consommateurs conscients (25–45 ans), prêts à payer plus pour un produit durable</td></tr>
+          <tr><td>Flux de revenus</td><td>Vente directe (D2C) avec prix premium justifié par la traçabilité et la durabilité. Pas d'intermédiaire. Potentiellement : service de réparation payant.</td></tr>
+          <tr><td>Ressources clés</td><td>Sourcing responsable (fibres naturelles certifiées), fabrication locale, transparence radicale (coût de revient publié)</td></tr>
+          <tr><td>Structure de coûts</td><td>Coûts matières plus élevés qu'en fast fashion, mais volumes plus faibles, pas de stocks massifs</td></tr>
+          <tr><td>Tension du modèle</td><td>Vendre moins (durabilité) mais à marge plus élevée. La viabilité dépend du volume et du prix premium maintenu.</td></tr>
+        </table>
+      </div>
+
+      <div class="model-card">
+        <div class="model-card-header">
+          <div class="model-card-emoji">🚜</div>
+          <div class="model-card-name">Kilimo Salama — Assurance agricole au Kenya</div>
+          <div class="model-card-type">B2C / Impact / Pays émergents</div>
+        </div>
+        <table class="model-rows">
+          <tr><td>Proposition de valeur</td><td>Assurance agricole pour petits agriculteurs africains contre les aléas climatiques, sans bureaucratie</td></tr>
+          <tr><td>Segments clients</td><td>Agriculteurs de subsistance (revenus < 2$/jour), non bancarisés, en zones rurales</td></tr>
+          <tr><td>Flux de revenus</td><td>Prime d'assurance payée par SMS via M-Pesa (mobile money). Indemnisation déclenchée automatiquement par données météo satellites — pas de déclaration de sinistre.</td></tr>
+          <tr><td>Ressources clés</td><td>Partenariat avec Swiss Re (réassurance), données satellites, réseau d'agro-dealers locaux pour la distribution</td></tr>
+          <tr><td>Innovation clé</td><td>Paramétrique : l'indemnisation n'est pas basée sur la perte réelle mais sur un indice (pluviométrie). Cela réduit les coûts de gestion à quasi zéro.</td></tr>
+          <tr><td>Leçon modèle éco</td><td>Même une proposition de valeur sociale peut être rentable si le modèle est bien conçu. L'innovation n'est pas toujours technologique.</td></tr>
+        </table>
+      </div>
+
+      <div class="box box-retenir">
+        <div class="box-label">À retenir</div>
+        <p>Un modèle économique, c'est un système cohérent. Chaque choix (client ciblé, canal, prix, coûts) est lié aux autres. Changer une variable peut déstabiliser l'ensemble. C'est pourquoi l'analyse financière commence toujours par une compréhension du modèle économique.</p>
+      </div>
+
+      <div class="section-nav">
+        <button class="nav-btn" onclick="goTo(1)">← Histoire</button>
+        <button class="nav-btn primary" onclick="goTo(3)">L'équation de CA →</button>
+      </div>
+    </div>
+
+
+    <!-- SECTION 3: EQUATION DE CA -->
+    <div class="section" id="sec-3">
+      <div class="progress-bar"><div class="progress-fill" style="width: 57%"></div></div>
+
+      <div class="section-header">
+        <div class="section-badge"><span class="dot"></span> Partie centrale — 1h30</div>
+        <h1 class="section-title">L'équation de chiffre d'affaires</h1>
+        <div class="section-meta">Section 03 · Compréhension profonde et opérationnelle</div>
+      </div>
+
+      <p>Le chiffre d'affaires (CA) est la première ligne du compte de résultat. C'est le total des ventes réalisées par une entreprise sur une période donnée. <strong>Il ne représente pas le bénéfice</strong> — c'est uniquement ce que l'entreprise a encaissé (ou facturé) avant toute déduction de coût.</p>
+
+      <div class="box box-attention">
+        <div class="box-label">Attention — Confusion courante</div>
+        <p>Chiffre d'affaires ≠ Profit. Une entreprise avec 10 millions € de CA peut perdre de l'argent si ses coûts dépassent ce montant. Vous apprendrez à calculer le profit au prochain cours.</p>
+      </div>
+
+      <h2>La formule fondamentale</h2>
+
+      <div class="formula">
+        <div class="formula-name">Formule générale</div>
+        CA = Prix unitaire × Volume vendu
+      </div>
+
+      <div class="box box-exemple">
+        <div class="box-label">Exemple de base</div>
+        <p>Un fleuriste vend 200 bouquets par semaine à 25 € l'unité.<br>
+        CA hebdomadaire = 25 € × 200 = <strong>5 000 €</strong><br>
+        CA annuel (52 semaines) = 5 000 × 52 = <strong>260 000 €</strong></p>
+      </div>
+
+      <p>Cette formule simple cache une réalité beaucoup plus riche. Dans la plupart des entreprises réelles, le CA résulte d'interactions complexes entre plusieurs variables.</p>
+
+      <h2>La décomposition fine : les 6 variables clés</h2>
+
+      <div class="var-grid">
+        <div class="var-card">
+          <div class="var-name">Prix de vente</div>
+          <div class="var-def">Montant facturé au client pour une unité de produit ou service. Peut être fixe ou variable.</div>
+          <div class="var-formula">Impact direct sur le CA</div>
+        </div>
+        <div class="var-card blue">
+          <div class="var-name">Volume vendu</div>
+          <div class="var-def">Nombre total d'unités vendues sur la période. Dépend du marché, de la distribution, de la demande.</div>
+          <div class="var-formula">Quantités × fréquence</div>
+        </div>
+        <div class="var-card amber">
+          <div class="var-name">Mix produit</div>
+          <div class="var-def">Répartition des ventes entre différents produits (certains plus rentables que d'autres).</div>
+          <div class="var-formula">Composition du panier</div>
+        </div>
+        <div class="var-card purple">
+          <div class="var-name">Fréquence d'achat</div>
+          <div class="var-def">Combien de fois un client revient acheter sur la période. Clé en B2C et en abonnement.</div>
+          <div class="var-formula">Achats / client / an</div>
+        </div>
+        <div class="var-card coral">
+          <div class="var-name">Panier moyen</div>
+          <div class="var-def">Valeur moyenne d'une transaction. Un client peut acheter plusieurs articles à la fois.</div>
+          <div class="var-formula">CA total / nb transactions</div>
+        </div>
+        <div class="var-card pink">
+          <div class="var-name">Taux de conversion</div>
+          <div class="var-def">Part des prospects ou visiteurs qui deviennent acheteurs. Critique en e-commerce.</div>
+          <div class="var-formula">Acheteurs / visiteurs × 100</div>
+        </div>
+      </div>
+
+      <h2>La formule étendue</h2>
+
+      <div class="formula">
+        <div class="formula-name">Formule étendue — B2C ou e-commerce</div>
+        CA = Nombre de clients actifs × Fréquence d'achat × Panier moyen
+      </div>
+
+      <div class="formula">
+        <div class="formula-name">Formule étendue — avec acquisition</div>
+        CA = (Visiteurs × Taux de conversion) × Fréquence × Panier moyen
+      </div>
+
+      <h3>Décryptage variable par variable</h3>
+
+      <p><strong>1. Le prix de vente</strong></p>
+      <p>Le prix n'est pas fixé arbitrairement. Il dépend de : la valeur perçue par le client, le coût de revient + marge souhaitée, les prix de la concurrence, la sensibilité au prix du marché cible, et la stratégie (pénétration vs écrémage).</p>
+
+      <div class="box box-exemple">
+        <div class="box-label">Exemple — Decathlon vs The North Face</div>
+        <p>Une veste de randonnée similaire se vend 50 € chez Decathlon et 400 € chez The North Face. Ce n'est pas uniquement la qualité qui explique l'écart — c'est la valeur perçue, le positionnement, la cible, et la stratégie de marque. Les deux modèles sont viables, mais pour des raisons très différentes.</p>
+      </div>
+
+      <p><strong>2. Le volume</strong></p>
+      <p>Dépend du marché adressable (TAM), de la pénétration (part de marché), de la capacité de production, de l'efficacité de la distribution, de la force de vente et du marketing.</p>
+
+      <p><strong>3. Le mix produit</strong></p>
+      <p>Si une entreprise vend plusieurs produits à des prix différents, le mix influence fortement le CA. Un glissement vers des produits moins chers peut faire baisser le CA même si le volume augmente.</p>
+
+      <div class="box box-exemple">
+        <div class="box-label">Exemple — Mix produit dans la restauration</div>
+        <p>Un restaurant propose des menus à 15 € et à 35 €. Si cette semaine 70% des clients choisissent le menu à 15 € (contre 50% habituellement), le CA baisse — même si la salle est aussi pleine. Comprendre le mix est essentiel pour piloter la performance.</p>
+      </div>
+
+      <p><strong>4. La fréquence d'achat</strong></p>
+      <p>Cruciale dans les modèles par abonnement, le retail, la beauté, l'alimentaire. Augmenter la fréquence (via fidélisation, relances, habitude) est souvent plus rentable qu'acquérir de nouveaux clients.</p>
+
+      <p><strong>5. Le panier moyen</strong></p>
+      <p>On l'augmente par l'upsell (version supérieure), le cross-sell (produit complémentaire), les bundles (offres groupées), ou les produits additionnels. Amazon est expert en optimisation du panier moyen.</p>
+
+      <p><strong>6. Le taux de conversion</strong></p>
+      <p>Clé en e-commerce. Un site avec 10 000 visiteurs/mois et 2% de conversion fait 200 ventes. Passer à 3% = +50% de ventes sans augmenter le trafic.</p>
+
+      <h2>Trois cas réels : décomposer le CA</h2>
+
+      <div class="case-header">
+        <div class="case-emoji">🛒</div>
+        <div class="case-info">
+          <h4>Cas 1 — Startup e-commerce : Panière Bio</h4>
+          <p>Vente en ligne de paniers de légumes biologiques en abonnement hebdomadaire</p>
+        </div>
+      </div>
+      <div style="border: 0.5px solid var(--color-border-tertiary, rgba(0,0,0,0.1)); border-top: none; border-radius: 0 0 10px 10px; padding: 1rem 1.25rem; margin-bottom: 1.25rem;">
+        <div class="stats-row">
+          <div class="stat-card"><div class="stat-label">Abonnés actifs</div><div class="stat-value">800</div></div>
+          <div class="stat-card"><div class="stat-label">Panier moyen</div><div class="stat-value">42 <span class="stat-unit">€</span></div></div>
+          <div class="stat-card"><div class="stat-label">Fréquence</div><div class="stat-value">52 <span class="stat-unit">sem/an</span></div></div>
+          <div class="stat-card"><div class="stat-label">CA annuel</div><div class="stat-value">1,75 <span class="stat-unit">M€</span></div></div>
+        </div>
+        <p style="font-size: 13px; color: var(--color-text-secondary, #666);">CA = 800 × 42 × 52 = <strong>1 747 200 €</strong>. Le levier principal : augmenter le nombre d'abonnés (acquisition) et le panier moyen (produits additionnels). La fréquence est déjà maximale (hebdomadaire).</p>
+      </div>
+
+      <div class="case-header">
+        <div class="case-emoji">🔩</div>
+        <div class="case-info">
+          <h4>Cas 2 — Entreprise industrielle : Méca-Pro</h4>
+          <p>Fabricant de pièces mécaniques de précision pour l'industrie aéronautique (B2B)</p>
+        </div>
+      </div>
+      <div style="border: 0.5px solid var(--color-border-tertiary, rgba(0,0,0,0.1)); border-top: none; border-radius: 0 0 10px 10px; padding: 1rem 1.25rem; margin-bottom: 1.25rem;">
+        <div class="stats-row">
+          <div class="stat-card"><div class="stat-label">Clients actifs</div><div class="stat-value">12</div></div>
+          <div class="stat-card"><div class="stat-label">Commande moy.</div><div class="stat-value">85k <span class="stat-unit">€</span></div></div>
+          <div class="stat-card"><div class="stat-label">Commandes/client</div><div class="stat-value">8 <span class="stat-unit">/an</span></div></div>
+          <div class="stat-card"><div class="stat-label">CA annuel</div><div class="stat-value">8,2 <span class="stat-unit">M€</span></div></div>
+        </div>
+        <p style="font-size: 13px; color: var(--color-text-secondary, #666);">CA = 12 × 85 000 × 8 = <strong>8 160 000 €</strong>. Ici, le levier principal n'est pas le prix (négocié sur des années) ni la fréquence (dictée par les cadences industrielles) — c'est le <strong>nombre de clients</strong> et la <strong>valeur des contrats</strong>. Perdre un client = perdre 680 000 € de CA.</p>
+      </div>
+
+      <div class="case-header">
+        <div class="case-emoji">🌍</div>
+        <div class="case-info">
+          <h4>Cas 3 — Acteur à impact : FormaRural</h4>
+          <p>ONG hybride proposant des formations professionnelles en zones rurales d'Afrique de l'Ouest, à financement mixte</p>
+        </div>
+      </div>
+      <div style="border: 0.5px solid var(--color-border-tertiary, rgba(0,0,0,0.1)); border-top: none; border-radius: 0 0 10px 10px; padding: 1rem 1.25rem; margin-bottom: 1.25rem;">
+        <table>
+          <tr><th>Source</th><th>Mécanisme</th><th>CA annuel</th></tr>
+          <tr><td>Apprenants (copaiement)</td><td>180 apprenants × 80 € × 1 session</td><td>14 400 €</td></tr>
+          <tr><td>Subventions publiques</td><td>Contrats avec États partenaires</td><td>120 000 €</td></tr>
+          <tr><td>Fondations privées</td><td>Appels à projets</td><td>60 000 €</td></tr>
+          <tr><td>Entreprises partenaires</td><td>Mécénat de compétences valorisé</td><td>35 000 €</td></tr>
+          <tr><td><strong>Total</strong></td><td></td><td><strong>229 400 €</strong></td></tr>
+        </table>
+        <p style="font-size: 13px; color: var(--color-text-secondary, #666);">L'équation de CA d'une structure à impact est plus complexe : plusieurs "clients" (apprenants, État, fondations, entreprises), des ressources parfois non-monétaires. L'analyse financière doit tenir compte de cette multiplicité.</p>
+      </div>
+
+      <div class="box box-retenir">
+        <div class="box-label">À retenir — Les leviers du CA</div>
+        <p>Augmenter le CA passe par l'un (ou la combinaison) de ces cinq leviers :<br>
+        <strong>1. Acquérir de nouveaux clients</strong> — marketing, distribution, partenariats<br>
+        <strong>2. Augmenter le prix</strong> — repositionnement, valeur ajoutée, packaging<br>
+        <strong>3. Augmenter la fréquence</strong> — fidélisation, habitude, abonnement<br>
+        <strong>4. Augmenter le panier moyen</strong> — upsell, cross-sell, offres groupées<br>
+        <strong>5. Améliorer le taux de conversion</strong> — UX, discours commercial, offre mieux ciblée</p>
+      </div>
+
+      <div class="section-nav">
+        <button class="nav-btn" onclick="goTo(2)">← Modèle économique</button>
+        <button class="nav-btn primary" onclick="goTo(4)">Exercices →</button>
+      </div>
+    </div>
+
+
+    <!-- SECTION 4: EXERCICES -->
+    <div class="section" id="sec-4">
+      <div class="progress-bar"><div class="progress-fill" style="width: 71%"></div></div>
+
+      <div class="section-header">
+        <div class="section-badge"><span class="dot"></span> Pratique — intégrée</div>
+        <h1 class="section-title">Exercices & cas pratiques</h1>
+        <div class="section-meta">Section 04 · Prise en main → Intermédiaire → Cas complet</div>
+      </div>
+
+      <p>Les exercices sont progressifs. Commencez par les exercices courts pour vous assurer que les bases sont solides, puis passez au cas complet.</p>
+
+      <h2>A — Exercices courts (prise en main)</h2>
+
+      <div class="ex-block">
+        <div class="ex-header">
+          <div class="ex-num">Ex. 1</div>
+          <div class="ex-title">Calcul de CA simple</div>
+          <div class="ex-difficulty">Niveau : débutant</div>
+        </div>
+        <div class="ex-body">
+          <p class="ex-question">Une librairie vend en moyenne 150 livres par semaine à un prix moyen de 18 €. Calculez son chiffre d'affaires hebdomadaire, mensuel et annuel.</p>
+          <button class="corrige-toggle" onclick="toggleCorrige(this)">Voir le corrigé</button>
+          <div class="corrige">
+            <div class="corrige-label">Corrigé</div>
+            <p><strong>CA hebdomadaire</strong> = 150 × 18 = <strong>2 700 €</strong></p>
+            <p><strong>CA mensuel</strong> ≈ 2 700 × 4,3 = <strong>11 610 €</strong> (on utilise 4,3 semaines/mois en moyenne)</p>
+            <p><strong>CA annuel</strong> = 2 700 × 52 = <strong>140 400 €</strong></p>
+            <p style="color: var(--color-text-secondary, #666); font-size: 13px; margin-top: 8px;">Note : on peut aussi faire 150 × 18 × 52 directement = 140 400 €. Les deux méthodes donnent le même résultat.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="ex-block">
+        <div class="ex-header">
+          <div class="ex-num">Ex. 2</div>
+          <div class="ex-title">Impact d'un changement de prix</div>
+          <div class="ex-difficulty">Niveau : débutant</div>
+        </div>
+        <div class="ex-body">
+          <p class="ex-question">Une salle de sport compte 400 abonnés qui paient 45 €/mois. Le gérant envisage d'augmenter le prix à 55 €/mois, mais anticipe une perte de 80 abonnés. Que lui conseillez-vous ? Comparez les deux scenarii.</p>
+          <button class="corrige-toggle" onclick="toggleCorrige(this)">Voir le corrigé</button>
+          <div class="corrige">
+            <div class="corrige-label">Corrigé détaillé</div>
+            <p><strong>Situation actuelle :</strong> 400 × 45 = <strong>18 000 €/mois</strong></p>
+            <p><strong>Situation envisagée :</strong> (400 – 80) × 55 = 320 × 55 = <strong>17 600 €/mois</strong></p>
+            <p>L'augmentation de prix génère paradoxalement une légère baisse de CA (–400 €/mois, soit –2,2%). La perte d'abonnés n'est pas compensée par la hausse de prix.</p>
+            <p><strong>Point d'équilibre :</strong> Pour que la hausse de prix soit neutre, il faut : 400 × 45 = X × 55 → X = 327 abonnés. Au-delà de 73 départs (18%), la hausse devient défavorable.</p>
+            <p style="color: var(--color-text-secondary, #666); font-size: 13px; margin-top: 8px;">La décision dépend aussi des coûts fixes (qui ne changent pas avec 80 abonnés de moins) et de la marge dégagée par abonné. Cette dimension coûts sera vue au prochain cours.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="ex-block">
+        <div class="ex-header">
+          <div class="ex-num">Ex. 3</div>
+          <div class="ex-title">Décomposition e-commerce</div>
+          <div class="ex-difficulty">Niveau : intermédiaire</div>
+        </div>
+        <div class="ex-body">
+          <p class="ex-question">Un site e-commerce reçoit 50 000 visiteurs uniques par mois. Son taux de conversion est de 1,8%. Le panier moyen est de 65 €. Calculez le CA mensuel. Puis calculez l'impact d'une amélioration du taux de conversion à 2,2% (sans changer les autres variables).</p>
+          <button class="corrige-toggle" onclick="toggleCorrige(this)">Voir le corrigé</button>
+          <div class="corrige">
+            <div class="corrige-label">Corrigé</div>
+            <p><strong>CA actuel :</strong> 50 000 × 1,8% × 65 = 50 000 × 0,018 × 65 = 900 × 65 = <strong>58 500 €/mois</strong></p>
+            <p><strong>Avec taux de conversion à 2,2% :</strong> 50 000 × 0,022 × 65 = 1 100 × 65 = <strong>71 500 €/mois</strong></p>
+            <p>Gain = 71 500 – 58 500 = <strong>+13 000 €/mois (+22,2%)</strong></p>
+            <p style="color: var(--color-text-secondary, #666); font-size: 13px; margin-top: 8px;">Améliorer le taux de conversion de 0,4 point (soit +22% relatif) génère une hausse de CA de 22%. C'est souvent l'un des leviers les plus efficaces car il n'augmente pas le coût d'acquisition.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="ex-block">
+        <div class="ex-header">
+          <div class="ex-num">Ex. 4</div>
+          <div class="ex-title">Mix produit</div>
+          <div class="ex-difficulty">Niveau : intermédiaire</div>
+        </div>
+        <div class="ex-body">
+          <p class="ex-question">Un salon de coiffure propose deux types de prestations : coupe simple (35 €) et coupe + coloration (95 €). Ce mois, il a réalisé 120 prestations, dont 70% de coupes simples et 30% de colorations. Calculez le CA. L'objectif est d'atteindre 50% de colorations le mois prochain, avec le même nombre de prestations. Quel serait le CA ?</p>
+          <button class="corrige-toggle" onclick="toggleCorrige(this)">Voir le corrigé</button>
+          <div class="corrige">
+            <div class="corrige-label">Corrigé</div>
+            <p><strong>Mois actuel :</strong></p>
+            <p>Coupes simples : 120 × 70% × 35 = 84 × 35 = 2 940 €</p>
+            <p>Colorations : 120 × 30% × 95 = 36 × 95 = 3 420 €</p>
+            <p>CA total = <strong>6 360 €</strong></p>
+            <p><strong>Mois prochain (50% de colorations) :</strong></p>
+            <p>Coupes simples : 60 × 35 = 2 100 €</p>
+            <p>Colorations : 60 × 95 = 5 700 €</p>
+            <p>CA total = <strong>7 800 €</strong> (+22,6%)</p>
+            <p style="color: var(--color-text-secondary, #666); font-size: 13px; margin-top: 8px;">Le volume est identique (120 prestations), mais le CA augmente de 22,6% uniquement grâce au mix. Cela illustre la puissance du mix produit comme levier de CA, sans vendre plus.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="sep"></div>
+      <h2>B — Cas intermédiaire : identifier les leviers</h2>
+
+      <div class="ex-block">
+        <div class="ex-header">
+          <div class="ex-num">Cas B</div>
+          <div class="ex-title">La Boulangerie du Soleil — Analyse du modèle</div>
+          <div class="ex-difficulty">Niveau : intermédiaire · 15–20 min</div>
+        </div>
+        <div class="ex-body">
+          <p class="ex-question"><strong>Contexte :</strong> La Boulangerie du Soleil est une boulangerie artisanale installée à Lyon depuis 3 ans. Elle est ouverte 6 jours sur 7, 50 semaines par an.</p>
+          <table style="margin-bottom: 12px;">
+            <tr><th>Indicateur</th><th>Valeur actuelle</th></tr>
+            <tr><td>Clients/jour</td><td>180</td></tr>
+            <tr><td>Panier moyen</td><td>4,80 €</td></tr>
+            <tr><td>Jours d'ouverture/an</td><td>300</td></tr>
+          </table>
+          <p class="ex-question"><strong>Questions :</strong></p>
+          <p class="ex-question">1. Calculez le CA annuel actuel.</p>
+          <p class="ex-question">2. Le boulanger envisage 3 actions : (a) proposer une formule déjeuner à 9 € pour augmenter le panier moyen à 6,20 €, (b) ouvrir le dimanche matin (+50 jours), (c) lancer une vente en ligne de paniers week-end. Calculez l'impact de chaque action séparément.</p>
+          <p class="ex-question">3. Quelle action est la plus impactante ? Laquelle vous semble la plus facile à mettre en oeuvre ?</p>
+          <button class="corrige-toggle" onclick="toggleCorrige(this)">Voir le corrigé</button>
+          <div class="corrige">
+            <div class="corrige-label">Corrigé complet</div>
+            <p><strong>1. CA actuel :</strong> 180 clients × 4,80 € × 300 jours = <strong>259 200 €/an</strong></p>
+            <p><strong>2a. Augmentation du panier moyen :</strong> 180 × 6,20 × 300 = <strong>334 800 €</strong> (+29%)</p>
+            <p><strong>2b. Ouverture le dimanche :</strong> 180 × 4,80 × 350 = <strong>302 400 €</strong> (+16,7%)</p>
+            <p style="font-size: 13px; color: var(--color-text-secondary, #666);">Note : on suppose que le dimanche attire autant de clients — hypothèse à valider. En réalité, le dimanche matin en boulangerie est souvent très fréquenté, l'hypothèse est raisonnable.</p>
+            <p><strong>2c. Paniers week-end en ligne :</strong> Données insuffisantes pour calculer précisément → il faudrait estimer le nb de paniers vendus et leur prix moyen. C'est une bonne illustration de la limite des données disponibles en analyse réelle.</p>
+            <p><strong>3.</strong> L'augmentation du panier moyen (+29%) a l'impact le plus fort. Mais elle nécessite d'investir dans une offre déjeuner (équipement, personnel). L'ouverture du dimanche est structurellement plus simple si le boulanger accepte de travailler ce jour-là. La vente en ligne est prometteuse mais demande un investissement numérique et logistique.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="sep"></div>
+      <h2>C — Cas complet : mini-étude de cas (30–40 min)</h2>
+
+      <div class="ex-block">
+        <div class="ex-header">
+          <div class="ex-num">Cas C</div>
+          <div class="ex-title">Verdure — Startup agri-alimentaire à impact</div>
+          <div class="ex-difficulty">Niveau : avancé · 30–40 min</div>
+        </div>
+        <div class="ex-body">
+          <p class="ex-question"><strong>Présentation de l'entreprise :</strong></p>
+          <p class="ex-question">Verdure est une startup fondée en 2022, basée à Bordeaux. Elle produit et vend des jus de légumes frais (carottes, betteraves, épinards) à partir de légumes "moches" récupérés auprès de 12 agriculteurs partenaires. Sa mission : réduire le gaspillage agricole et offrir une alternative saine et accessible aux boissons ultra-transformées.</p>
+
+          <p class="ex-question"><strong>Données pour l'exercice :</strong></p>
+          <table>
+            <tr><th>Indicateur</th><th>Valeur</th></tr>
+            <tr><td>Canaux de vente</td><td>Marchés bio (60%) + épiceries locales (30%) + site web direct (10%)</td></tr>
+            <tr><td>Prix bouteille 50cl (marché & épiceries)</td><td>3,50 €</td></tr>
+            <tr><td>Prix bouteille 50cl (web)</td><td>4,20 € (+ frais de port = 6 € HT)</td></tr>
+            <tr><td>Bouteilles vendues/semaine (marchés & épiceries)</td><td>1 800</td></tr>
+            <tr><td>Commandes web/mois</td><td>60 commandes × 6 bouteilles en moyenne</td></tr>
+            <tr><td>Semaines d'activité</td><td>48 semaines/an (fermeture août + fêtes)</td></tr>
+          </table>
+
+          <p class="ex-question"><strong>Questions :</strong></p>
+          <p class="ex-question"><strong>Q1.</strong> Reconstituez l'équation de CA de Verdure. Calculez le CA annuel total en distinguant les trois canaux.</p>
+          <p class="ex-question"><strong>Q2.</strong> Quelle est la part de chaque canal dans le CA total ? Quel canal génère le CA par bouteille le plus élevé ?</p>
+          <p class="ex-question"><strong>Q3.</strong> Verdure envisage de développer un abonnement mensuel (box de 12 bouteilles à 38 €). Elle estime pouvoir convaincre 5% de ses clients web actuels de souscrire. Quel impact sur le CA annuel ?</p>
+          <p class="ex-question"><strong>Q4.</strong> Identifiez et priorisez les 3 leviers de croissance les plus pertinents pour Verdure, en justifiant votre réponse.</p>
+
+          <button class="corrige-toggle" onclick="toggleCorrige(this)">Voir le corrigé complet</button>
+          <div class="corrige">
+            <div class="corrige-label">Corrigé complet</div>
+
+            <p><strong>Q1 — CA par canal :</strong></p>
+            <p>Marchés & épiceries : 1 800 bouteilles × 48 semaines × 3,50 € = <strong>302 400 €</strong></p>
+            <p>Web (commandes) : 60 commandes × 6 bouteilles × 48 semaines/12 mois... Attention : données en mois → 60 × 6 × 12 mois (car le web fonctionne hors saison aussi, ou on garde 48 semaines → 60 × 11 mois = 660 commandes) → 660 × (4,20 × 6) = 660 × 25,20 = <strong>16 632 €</strong></p>
+            <p>CA total ≈ <strong>319 032 €</strong></p>
+            <p style="font-size: 13px; color: var(--color-text-secondary, #666);">Note : le prix web est calculé par bouteille (4,20 €) + frais de port par commande. Selon si les frais de port constituent du CA ou un simple remboursement de coût, le traitement comptable peut varier. On inclut ici la valeur bouteilles uniquement.</p>
+
+            <p><strong>Q2 — Part de chaque canal :</strong></p>
+            <p>Marchés & épiceries : 302 400 / 319 032 = <strong>94,8%</strong> du CA</p>
+            <p>Web : <strong>5,2%</strong> du CA, mais CA par bouteille = 4,20 € vs 3,50 € → +20% par bouteille</p>
+            <p>Le canal web est actuellement marginal en volume mais plus rentable par unité.</p>
+
+            <p><strong>Q3 — Impact abonnement :</strong></p>
+            <p>Clients web actuels ≈ 660 commandes / 6 bouteilles = 110 clients actifs sur l'année. 5% → 5 ou 6 abonnés.</p>
+            <p>CA abonnement : 6 abonnés × 38 € × 12 mois = <strong>2 736 €/an</strong></p>
+            <p>C'est marginal, mais c'est un début. Pour être significatif, il faudrait 100+ abonnés, ce qui nécessiterait de développer fortement l'audience web.</p>
+
+            <p><strong>Q4 — Leviers prioritaires :</strong></p>
+            <p><strong>1. Développer la distribution (volume)</strong> : le canal marchés & épiceries représente 95% du CA. Ajouter 3–4 épiceries ou un marché supplémentaire pourrait avoir un impact immédiat et fort.</p>
+            <p><strong>2. Développer le canal web (prix et récurrence)</strong> : bouteille à 4,20 € vs 3,50 € = +20% de CA par unité. Investir en acquisition numérique pourrait augmenter significativement la marge.</p>
+            <p><strong>3. Nouveaux produits / mix produit</strong> : soupes en bocaux, jus premium, produits saisonniers. Un panier moyen plus élevé peut compenser les contraintes de volume.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-nav">
+        <button class="nav-btn" onclick="goTo(3)">← Équation de CA</button>
+        <button class="nav-btn primary" onclick="goTo(5)">Ouverture Regen →</button>
+      </div>
+    </div>
+
+
+    <!-- SECTION 5: OUVERTURE REGEN -->
+    <div class="section" id="sec-5">
+      <div class="progress-bar"><div class="progress-fill" style="width: 85%"></div></div>
+
+      <div class="section-header">
+        <div class="section-badge"><span class="dot"></span> Ouverture — 30 min</div>
+        <h1 class="section-title">Finance & régénération : une tension productive</h1>
+        <div class="section-meta">Section 05 · Lecture critique, nuancée et étayée</div>
+      </div>
+
+      <div class="box box-attention">
+        <div class="box-label">Positionnement de cette section</div>
+        <p>Cette section n'est pas un plaidoyer militant. Elle présente des enjeux réels, étayés scientifiquement, et des réponses émergentes — sans promettre ce qui n'est pas encore prouvé, sans caricaturer ce qui mérite d'être compris.</p>
+      </div>
+
+      <h2>Pourquoi les indicateurs financiers classiques ont des limites</h2>
+
+      <p>Le chiffre d'affaires, le bénéfice, et la valeur boursière mesurent ce qui est échangé sur un marché. Mais ils ne capturent pas — par construction — ce qui n'a pas de prix de marché.</p>
+
+      <div class="box box-definition">
+        <div class="box-label">Définition — Externalité</div>
+        <p>Une <strong>externalité</strong> est un effet (positif ou négatif) qu'une activité économique produit sur des acteurs qui n'ont pas choisi d'y participer et n'en sont pas compensés.<br><br>
+        <em>Exemples d'externalités négatives :</em> pollution de l'air par une usine (coût supporté par les riverains et la santé publique), épuisement d'une nappe phréatique par un élevage intensif, émissions de CO₂ sans prix carbone.</p>
+      </div>
+
+      <p>Un rapport du TEEB (The Economics of Ecosystems and Biodiversity, 2010, ONU) a estimé que si les 3 000 plus grandes entreprises mondiales devaient payer pour leurs externalités environnementales, leur profit net combiné serait <strong>négatif</strong> pour environ 1/3 d'entre elles. <span class="tag tag-debat">Estimations contestées en méthode, mais l'ordre de grandeur est significatif</span></p>
+
+      <h2>Ce que disent les sciences des limites planétaires</h2>
+
+      <div class="box box-regen">
+        <div class="box-label">Consensus scientifique — Limites planétaires (Rockström et al., 2009, mis à jour 2023)</div>
+        <p>L'équipe de Stockholm Resilience Centre a identifié <strong>9 processus systémiques</strong> qui régulent la stabilité de la Terre. Chacun a un seuil au-delà duquel les conséquences deviennent imprévisibles et potentiellement irréversibles.</p>
+        <p>En 2023, <strong>6 des 9 limites sont franchies</strong> : changement climatique, érosion de la biodiversité, perturbation des cycles de l'azote et du phosphore, usage des sols, eau douce, introduction d'entités nouvelles (plastiques, produits chimiques).</p>
+        <p>Ce cadre n'est pas un modèle économique. C'est une contrainte physique et biologique dans laquelle toute activité économique s'inscrit. <span class="tag tag-consensus">Consensus scientifique robuste</span></p>
+      </div>
+
+      <h2>Ce que cela implique pour la finance d'entreprise</h2>
+
+      <p>Si des ressources naturelles sont utilisées à un rythme non soutenable, leur raréfaction future constitue un <strong>risque financier réel</strong> — pas seulement moral. Les banques centrales et les régulateurs financiers ont commencé à l'intégrer dans leurs analyses de risque systémique.</p>
+
+      <div class="box box-exemple">
+        <div class="box-label">Exemple — La TCFD et la finance climatique</div>
+        <p>La Task Force on Climate-related Financial Disclosures (TCFD, créée par le G20 en 2015) recommande aux entreprises de publier leur exposition aux risques climatiques physiques (inondations, sécheresse) et de transition (réglementation carbone, changements de demande). Plus de 4 000 organisations y adhèrent. L'UE l'a rendue obligatoire pour les grandes entreprises via la CSRD (Corporate Sustainability Reporting Directive, 2023). <span class="tag tag-emergent">En cours de déploiement</span></p>
+      </div>
+
+      <h2>Les innovations en cours : modèles régénératifs et nouveaux indicateurs</h2>
+
+      <p>Face à ces enjeux, des praticiens et des chercheurs développent de nouvelles approches. Elles sont prometteuses, mais à des stades de maturité très différents.</p>
+
+      <table>
+        <tr><th>Innovation</th><th>Principe</th><th>Stade de maturité</th></tr>
+        <tr>
+          <td><strong>Comptabilité multi-capitaux</strong></td>
+          <td>Mesurer le capital naturel, humain et social consommé ou créé, en plus du capital financier.</td>
+          <td><span class="tag tag-emergent">Émergent — pas de standard international</span></td>
+        </tr>
+        <tr>
+          <td><strong>Impact-Weighted Accounts</strong></td>
+          <td>Monétariser les impacts sociaux et environnementaux pour les intégrer aux comptes (Harvard Business School).</td>
+          <td><span class="tag tag-emergent">Recherche active — peu d'adoption</span></td>
+        </tr>
+        <tr>
+          <td><strong>Économie circulaire</strong></td>
+          <td>Concevoir les produits pour que les matières restent en circulation (réparation, réutilisation, recyclage).</td>
+          <td><span class="tag tag-consensus">Pratiques établies dans certains secteurs</span></td>
+        </tr>
+        <tr>
+          <td><strong>Entreprise à mission</strong></td>
+          <td>Statut légal (France : loi PACTE 2019) permettant d'inscrire une mission sociale/environnementale dans les statuts.</td>
+          <td><span class="tag tag-emergent">Légal et croissant, mais encore minoritaire</span></td>
+        </tr>
+        <tr>
+          <td><strong>Finance régénérative</strong></td>
+          <td>Orienter les capitaux vers des activités qui restaurent les écosystèmes et les communautés, pas seulement qui "font moins de mal".</td>
+          <td><span class="tag tag-emergent">Concept en construction — peu standardisé</span></td>
+        </tr>
+      </table>
+
+      <div class="box box-attention">
+        <div class="box-label">Attention — Garder son esprit critique</div>
+        <p>Beaucoup d'acteurs utilisent le vocabulaire de la durabilité ou de la régénération à des fins de communication (greenwashing). La rigueur analytique que vous développez en finance vous permet précisément de <strong>distinguer les affirmations mesurables des slogans</strong>. Demandez toujours : quels indicateurs ? Mesurés comment ? Vérifiés par qui ?</p>
+      </div>
+
+      <div class="quote-block">
+        <p>The economy is a wholly owned subsidiary of the environment, not the other way around.</p>
+        <div class="quote-source">— Herman Daly, économiste écologique, ex-Banque Mondiale</div>
+      </div>
+
+      <div class="box box-retenir">
+        <div class="box-label">À retenir</div>
+        <p>Les outils financiers classiques ont une utilité réelle — et des angles morts réels. Les ignorer est une faute professionnelle. Les absolutiser est une erreur stratégique. Votre rôle en tant que manager de demain est de maîtriser ces outils <em>et</em> de comprendre leurs limites — pour pouvoir les compléter ou les dépasser quand c'est nécessaire.</p>
+      </div>
+
+      <div class="section-nav">
+        <button class="nav-btn" onclick="goTo(4)">← Exercices</button>
+        <button class="nav-btn primary" onclick="goTo(6)">Conclusion →</button>
+      </div>
+    </div>
+
+
+    <!-- SECTION 6: CONCLUSION -->
+    <div class="section" id="sec-6">
+      <div class="progress-bar"><div class="progress-fill" style="width: 100%"></div></div>
+
+      <div class="section-header">
+        <div class="section-badge"><span class="dot"></span> Conclusion — 15 min</div>
+        <h1 class="section-title">Ce que vous emportez</h1>
+        <div class="section-meta">Section 06 · Synthèse & transition vers le cours suivant</div>
+      </div>
+
+      <h2>Les 7 points essentiels de ce cours</h2>
+
+      <div class="box box-retenir">
+        <div class="box-label">À retenir absolument</div>
+        <p><strong>1.</strong> La finance d'entreprise est un outil de pilotage — pas une fin en soi. Elle répond à trois questions : comment l'entreprise gagne-t-elle de l'argent, comment l'utilise-t-elle, est-elle viable ?</p>
+        <p><strong>2.</strong> Les pratiques financières actuelles sont le produit d'une histoire — pas des lois naturelles. Elles ont évolué et continuent d'évoluer.</p>
+        <p><strong>3.</strong> La maximisation de la valeur actionnariale est un choix, pas une nécessité. C'est un débat ouvert, avec des arguments des deux côtés.</p>
+        <p><strong>4.</strong> Un modèle économique, ce n'est pas une activité — c'est un système qui explique comment on crée et capte de la valeur. Il faut l'analyser dans toutes ses dimensions.</p>
+        <p><strong>5.</strong> Le chiffre d'affaires n'est pas le bénéfice. Il se décompose en plusieurs leviers : prix, volume, fréquence, panier moyen, taux de conversion, mix produit.</p>
+        <p><strong>6.</strong> Les indicateurs financiers classiques ont des angles morts réels : externalités, ressources naturelles, impacts sociaux. Des alternatives existent mais aucune ne fait encore consensus.</p>
+        <p><strong>7.</strong> La rigueur analytique est votre meilleure protection contre le dogmatisme — de tous les côtés.</p>
+      </div>
+
+      <h2>Transition vers le cours suivant</h2>
+
+      <p>Dans ce cours, vous avez appris à calculer le chiffre d'affaires. Mais le CA ne dit rien de la rentabilité. Une entreprise peut faire des millions de CA et perdre de l'argent chaque mois.</p>
+
+      <p>Le prochain cours introduira les <strong>coûts</strong> et le <strong>compte de résultat</strong> — la pièce manquante qui transforme le CA en analyse de performance réelle.</p>
+
+      <div class="box box-exemple">
+        <div class="box-label">Aperçu du prochain cours</div>
+        <p>Vous apprendrez à :<br>
+        — Distinguer coûts fixes et coûts variables<br>
+        — Calculer la marge sur coût variable et le seuil de rentabilité<br>
+        — Lire un compte de résultat simplifié<br>
+        — Analyser si un modèle économique est viable financièrement</p>
+      </div>
+
+      <div class="quote-block">
+        <p>Revenue is vanity, profit is sanity, cash is reality.</p>
+        <div class="quote-source">— Adage de la finance d'entreprise</div>
+      </div>
+
+      <div class="sep"></div>
+
+      <h2>Glossaire des notions clés vues aujourd'hui</h2>
+
+      <table>
+        <tr><th>Terme</th><th>Définition rapide</th></tr>
+        <tr><td><strong>Chiffre d'affaires (CA)</strong></td><td>Total des ventes réalisées sur une période. Première ligne du compte de résultat.</td></tr>
+        <tr><td><strong>Modèle économique</strong></td><td>Système décrivant comment une entreprise crée, délivre et capte de la valeur.</td></tr>
+        <tr><td><strong>Mix produit</strong></td><td>Répartition des ventes entre plusieurs produits ou services.</td></tr>
+        <tr><td><strong>Taux de conversion</strong></td><td>Part des prospects qui deviennent acheteurs.</td></tr>
+        <tr><td><strong>Panier moyen</strong></td><td>Valeur moyenne d'une transaction.</td></tr>
+        <tr><td><strong>Externalité</strong></td><td>Effet d'une activité économique sur des tiers non impliqués et non compensés.</td></tr>
+        <tr><td><strong>Shareholder value</strong></td><td>Doctrine selon laquelle l'entreprise doit maximiser la valeur pour ses actionnaires.</td></tr>
+        <tr><td><strong>Limites planétaires</strong></td><td>Seuils biophysiques au-delà desquels la stabilité du système Terre est menacée (Rockström et al.).</td></tr>
+        <tr><td><strong>CSRD</strong></td><td>Corporate Sustainability Reporting Directive — obligation européenne de reporting extra-financier.</td></tr>
+      </table>
+
+      <div style="text-align: center; padding: 2rem 0 1rem;">
+        <div style="display: inline-block; background: #E1F5EE; border-radius: 10px; padding: 1rem 2rem;">
+          <div style="font-size: 12px; font-weight: 600; color: #0F6E56; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px;">Fin du cours 1</div>
+          <div style="font-family: 'Libre Baskerville', serif; font-size: 17px; color: #085041;">Finance d'entreprise — Fondamentaux</div>
+          <div style="font-size: 12px; color: #0F6E56; margin-top: 4px;">Regen School · M1 Management</div>
+        </div>
+      </div>
+
+      <div class="section-nav">
+        <button class="nav-btn" onclick="goTo(5)">← Ouverture Regen</button>
+        <button class="nav-btn primary" onclick="goTo(0)">Revoir l'introduction ↺</button>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  const sections = document.querySelectorAll('.section');
+  const navItems = document.querySelectorAll('.nav-item');
+  let current = 0;
+
+  function goTo(idx) {
+    sections[current].classList.remove('active');
+    navItems[current].classList.remove('active');
+    current = idx;
+    sections[current].classList.add('active');
+    navItems[current].classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function toggleCorrige(btn) {
+    const corrige = btn.nextElementSibling;
+    corrige.classList.toggle('open');
+    btn.textContent = corrige.classList.contains('open') ? 'Masquer le corrigé' : 'Voir le corrigé';
+  }
+</script>
+</body>
+</html>
